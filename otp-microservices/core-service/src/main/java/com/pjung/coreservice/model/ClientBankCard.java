@@ -1,8 +1,7 @@
 package com.pjung.coreservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -16,12 +15,18 @@ import java.util.UUID;
 public class ClientBankCard {
 
     @Id
-    private UUID Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
     private String cardNumber;
     private int cvcCode;
     private String name;
     private int amount;
     private String currency;
     @OneToOne
+    @JsonBackReference
     private Client client;
+
+    public boolean checkFunds(int amount) {
+        return this.amount > amount;
+    }
 }
