@@ -13,6 +13,7 @@ import com.pjung.partnerservice.service.ReservationService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class EventController {
             return  new ResponseEntity(httpStatus);
         }
     }
-
+    @Transactional
     @PostMapping(value = "reserve")
     public ResponseEntity<Object> reserveSeat (@RequestParam Long eventId, @RequestParam Long seatId, @RequestBody ReservationDTO reservationDTO) {
         Event event = eventService.getEventById(eventId);
