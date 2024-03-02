@@ -1,10 +1,7 @@
 package com.pjung.coreservice.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -19,13 +16,15 @@ import java.util.UUID;
 public class Client {
 
     @Id
-    private UUID Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
     private String name;
     private String email;
     @OneToMany(mappedBy = "client")
     @JsonManagedReference
     private List<ClientDevice> clientDevices;
     @OneToOne(mappedBy = "client")
+    @JsonManagedReference
     private ClientBankCard clientBankCard;
     @OneToMany(mappedBy = "client")
     private List<ClientToken> clientTokens;
