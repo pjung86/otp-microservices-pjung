@@ -1,4 +1,4 @@
-package com.pjung.partnerservice.model;
+package com.pjung.ticketservice.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -6,7 +6,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
+import static java.lang.Integer.parseInt;
 
 @Getter
 @Setter
@@ -29,4 +30,8 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "seat_id", referencedColumnName = "seatId"))
     @JsonManagedReference
     private List<Seat> seats;
+
+    public boolean isItExpired (LocalDateTime timeStamp) {
+        return this.startTimeStamp.isBefore(timeStamp);
+    }
 }
