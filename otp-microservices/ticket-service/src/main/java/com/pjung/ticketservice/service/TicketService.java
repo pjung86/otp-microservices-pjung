@@ -2,10 +2,17 @@ package com.pjung.ticketservice.service;
 
 import com.pjung.ticketservice.dto.NewEventDTO;
 import com.pjung.ticketservice.dto.ReservationDTO;
+import com.pjung.ticketservice.exceptions.EventIsExpiredException;
+import com.pjung.ticketservice.exceptions.EventNotFoundException;
+import com.pjung.ticketservice.exceptions.SeatIsTakenException;
+import com.pjung.ticketservice.exceptions.SeatNotFoundException;
 import com.pjung.ticketservice.model.ClientBankCard;
+import com.pjung.ticketservice.model.Event;
+import com.pjung.ticketservice.model.Seat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,22 +25,24 @@ public class TicketService {
     }
 
 
-    public List<NewEventDTO> getAllPartnerEvents() {
-        NewEventDTO[] partnerEvents = webClientBuilder.build().get()
+    public List<Event> getAllPartnerEvents() {
+        Event[] partnerEvents = webClientBuilder.build().get()
                 .uri("http://partner-service/events/getEvents")
                 .retrieve()
-                .bodyToMono(NewEventDTO[].class)
+                .bodyToMono(Event[].class)
                 .block();
         return Arrays.stream(partnerEvents).toList();
     }
 
-    public NewEventDTO getPartnerEventById(Long id) {
-        NewEventDTO partnerEvent = webClientBuilder.build().get()
+    public Event getPartnerEventById(Long id) {
+        Event partnerEvent = webClientBuilder.build().get()
                 .uri("http://partner-service/events/getEvent/{id}", id)
                 .retrieve()
-                .bodyToMono(NewEventDTO.class)
+                .bodyToMono(Event.class)
                 .block();
-
+        if(partnerEvent == null) {
+            throw new EventNotFoundException("Nem létezik ilyen esemény!");
+        }
         return partnerEvent;
     }
 
@@ -47,6 +56,22 @@ public class TicketService {
     }
 
     public ReservationDTO payForReservation (Long eventId, Long seatId) {
+        Event currentEvent = getPartnerEventById(eventId);
+        LocalDateTime currentTime = LocalDateTime.now();
+        if(currentEvent == null) {
+            throw new EventNotFoundException("Nem létezik ilyen esemény!");
+        }
+
+        if (currentEvent.isItExpired(currentTime)) {
+            throw new EventIsExpiredException("Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!");
+        }
+        Seat seat = currentEvent.getSeats().stream()
+                .filter(seat1 -> seat1.getSeatId().equals(seatId))
+                .findFirst()
+                .orElseThrow(() -> new SeatNotFoundException("Nem létezik ilyen szék!"));
+        if(seat.isReserved()) {
+            throw new SeatIsTakenException("Már lefoglalt székre nem lehet jegyet eladni!");
+        }
         return null;
     }
 }
