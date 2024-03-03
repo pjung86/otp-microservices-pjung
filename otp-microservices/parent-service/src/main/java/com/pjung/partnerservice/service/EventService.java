@@ -1,5 +1,6 @@
 package com.pjung.partnerservice.service;
 
+import com.pjung.partnerservice.exceptions.EventNotFoundException;
 import com.pjung.partnerservice.repository.SeatRepository;
 import com.pjung.partnerservice.service.builder.EventBuilder;
 import com.pjung.partnerservice.dto.NewEventDTO;
@@ -35,6 +36,9 @@ public class EventService {
     }
 
     public Event getEventById(Long id) {
+        if(eventRepository.findEventByEventId(id) == null) {
+            throw new EventNotFoundException("Nem létezik ilyen esemény!");
+        }
         return eventRepository.findEventByEventId(id);
     }
 
