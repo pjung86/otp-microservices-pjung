@@ -2,12 +2,11 @@ package com.pjung.coreservice.controller;
 
 import com.pjung.coreservice.model.Client;
 import com.pjung.coreservice.model.ClientBankCard;
+import com.pjung.coreservice.model.ClientToken;
 import com.pjung.coreservice.service.BankCardService;
 import com.pjung.coreservice.service.ClientService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.pjung.coreservice.service.TokenService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,9 +18,12 @@ public class CoreController {
 
     private final BankCardService bankCardService;
 
-    public CoreController(ClientService clientService, BankCardService bankCardService) {
+    private final TokenService tokenService;
+
+    public CoreController(ClientService clientService, BankCardService bankCardService, TokenService tokenService) {
         this.clientService = clientService;
         this.bankCardService = bankCardService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping(value = "clients")
@@ -37,5 +39,16 @@ public class CoreController {
     @GetMapping(value = "bankcard/{id}")
     public ClientBankCard getClientBankCardById(@PathVariable("id") Long id) {
         return bankCardService.getClientBankCardById(id);
+    }
+
+    @GetMapping(value = "validatePayment")
+    public boolean validatePayment(@RequestParam Long cardId, @RequestParam Long clientId, @RequestParam int price) {
+        return bankCardService.isItMyCard(cardId, clientId) && bankCardService.isCardBalanceEnough(cardId, price);
+    }
+
+    @GetMapping(value = "getToken/{token}")
+    public boolean getToken(@PathVariable("token") String token) {
+        ClientToken clientToken = tokenService.getTokenByToken(token);
+        return clientToken.getToken().equals(token);
     }
 }
