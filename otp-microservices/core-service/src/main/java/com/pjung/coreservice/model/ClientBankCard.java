@@ -29,4 +29,8 @@ public class ClientBankCard {
     public boolean checkFunds(int amount) {
         return this.amount > amount;
     }
+
+    public boolean isItMine (Long id) {
+        return this.client.getId().equals(id);
+    }
 }
