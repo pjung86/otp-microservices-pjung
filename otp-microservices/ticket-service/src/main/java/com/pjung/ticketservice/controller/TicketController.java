@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ticket")
+@RequestMapping("/")
 public class TicketController {
     private final TicketService ticketService;
 
@@ -21,12 +21,12 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping(value = "events")
+    @GetMapping(value = "getEvents")
     public List<Event> getPartnerEvents() {
         return ticketService.getAllPartnerEvents();
     }
 
-    @GetMapping(value = "event/{id}")
+    @GetMapping(value = "getEvent/{id}")
     public Event getPartnerEventById (@PathVariable("id") Long id) {
         return ticketService.getPartnerEventById(id);
     }
