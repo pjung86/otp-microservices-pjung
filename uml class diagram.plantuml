@@ -1,0 +1,658 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ApiGatewayApplication {
+  + ApiGatewayApplication(): 
+  + main(String[]): void
+}
+class ApiService {
+  + ApiService(): 
+  + validateToken(String): boolean
+}
+entity BankCardException << record >> {
+  + BankCardException(String, String, String, HttpStatus): 
+  + incident(): String
+  + errorCode(): String
+  + httpStatus(): HttpStatus
+  + message(): String
+}
+class BankCardIsNotClientsException {
+  + BankCardIsNotClientsException(String): 
+}
+interface BankCardRepository << interface >> {
+  + getClientBankCardById(Long): ClientBankCard
+}
+class BankCardService {
+  + BankCardService(BankCardRepository): 
+  + isCardBalanceEnough(Long, int): boolean
+  + isItMyCard(Long, Long): boolean
+  + getClientBankCardById(Long): ClientBankCard
+}
+class Base64Utility {
+  + Base64Utility(): 
+  + Base64Encoder(String): String
+  + Base64Decoder(String): String
+}
+class Client {
+  + Client(Long, String, String, List<ClientDevice>, ClientBankCard, List<ClientToken>): 
+  + Client(): 
+  - name: String
+  - email: String
+  - clientBankCard: ClientBankCard
+  - Id: Long
+  - clientTokens: List<ClientToken>
+  - clientDevices: List<ClientDevice>
+  + builder(): ClientBuilder
+   clientTokens: List<ClientToken>
+   name: String
+   clientBankCard: ClientBankCard
+   clientDevices: List<ClientDevice>
+   Id: Long
+   email: String
+}
+class Client {
+  + Client(): 
+  + Client(Long, String, String, List<ClientDevice>, ClientBankCard, List<ClientToken>): 
+  - clientDevices: List<ClientDevice>
+  - name: String
+  - email: String
+  - clientTokens: List<ClientToken>
+  - Id: Long
+  - clientBankCard: ClientBankCard
+  + builder(): ClientBuilder
+   clientTokens: List<ClientToken>
+   name: String
+   clientBankCard: ClientBankCard
+   clientDevices: List<ClientDevice>
+   Id: Long
+   email: String
+}
+class ClientBankCard {
+  + ClientBankCard(Long, String, int, String, int, String, Client): 
+  + ClientBankCard(): 
+  - currency: String
+  - client: Client
+  - name: String
+  - Id: Long
+  - amount: int
+  - cvcCode: int
+  - cardNumber: String
+  + builder(): ClientBankCardBuilder
+  + isItMine(Long): boolean
+  + checkFunds(int): boolean
+   name: String
+   cardNumber: String
+   cvcCode: int
+   client: Client
+   Id: Long
+   amount: int
+   currency: String
+}
+class ClientBankCard {
+  + ClientBankCard(Long, String, int, String, int, String, Client): 
+  + ClientBankCard(): 
+  - amount: int
+  - cvcCode: int
+  - cardNumber: String
+  - name: String
+  - Id: Long
+  - currency: String
+  - client: Client
+  + checkFunds(int): boolean
+  + builder(): ClientBankCardBuilder
+   name: String
+   cardNumber: String
+   cvcCode: int
+   client: Client
+   Id: Long
+   amount: int
+   currency: String
+}
+class ClientBankCardBuilder {
+  + ClientBankCardBuilder(BankCardRepository): 
+  + bankCardBuilder(ClientBankCardDTO): ClientBankCard
+}
+class ClientBankCardBuilder {
+  ~ ClientBankCardBuilder(): 
+  + cardNumber(String): ClientBankCardBuilder
+  + currency(String): ClientBankCardBuilder
+  + name(String): ClientBankCardBuilder
+  + client(Client): ClientBankCardBuilder
+  + Id(Long): ClientBankCardBuilder
+  + amount(int): ClientBankCardBuilder
+  + build(): ClientBankCard
+  + toString(): String
+  + cvcCode(int): ClientBankCardBuilder
+}
+class ClientBankCardBuilder {
+  ~ ClientBankCardBuilder(): 
+  + Id(Long): ClientBankCardBuilder
+  + currency(String): ClientBankCardBuilder
+  + amount(int): ClientBankCardBuilder
+  + name(String): ClientBankCardBuilder
+  + client(Client): ClientBankCardBuilder
+  + toString(): String
+  + cvcCode(int): ClientBankCardBuilder
+  + build(): ClientBankCard
+  + cardNumber(String): ClientBankCardBuilder
+}
+entity ClientBankCardDTO << record >> {
+  + ClientBankCardDTO(String, int, String, int, String, Client): 
+  + currency(): String
+  + name(): String
+  + cardNumber(): String
+  + amount(): int
+  + client(): Client
+  + cvcCode(): int
+}
+class ClientBuilder {
+  + ClientBuilder(ClientRepository): 
+  + clientBuilder(ClientDTO): Client
+}
+class ClientBuilder {
+  ~ ClientBuilder(): 
+  + build(): Client
+  + clientTokens(List<ClientToken>): ClientBuilder
+  + email(String): ClientBuilder
+  + toString(): String
+  + Id(Long): ClientBuilder
+  + clientDevices(List<ClientDevice>): ClientBuilder
+  + clientBankCard(ClientBankCard): ClientBuilder
+  + name(String): ClientBuilder
+}
+class ClientBuilder {
+  ~ ClientBuilder(): 
+  + Id(Long): ClientBuilder
+  + name(String): ClientBuilder
+  + email(String): ClientBuilder
+  + clientDevices(List<ClientDevice>): ClientBuilder
+  + toString(): String
+  + clientBankCard(ClientBankCard): ClientBuilder
+  + build(): Client
+  + clientTokens(List<ClientToken>): ClientBuilder
+}
+entity ClientDTO << record >> {
+  + ClientDTO(String, String): 
+  + email(): String
+  + name(): String
+}
+class ClientDevice {
+  + ClientDevice(Long, String, Client): 
+  + ClientDevice(): 
+  - client: Client
+  - Id: Long
+  - deviceHash: String
+  + builder(): ClientDeviceBuilder
+   Id: Long
+   deviceHash: String
+   client: Client
+}
+class ClientDevice {
+  + ClientDevice(): 
+  + ClientDevice(Long, String, Client): 
+  - deviceHash: String
+  - Id: Long
+  - client: Client
+  + builder(): ClientDeviceBuilder
+   Id: Long
+   deviceHash: String
+   client: Client
+}
+class ClientDeviceBuilder {
+  + ClientDeviceBuilder(ClientDeviceRepository): 
+  + clientDeviceBuilder(ClientDeviceDTO): ClientDevice
+}
+class ClientDeviceBuilder {
+  ~ ClientDeviceBuilder(): 
+  + deviceHash(String): ClientDeviceBuilder
+  + build(): ClientDevice
+  + Id(Long): ClientDeviceBuilder
+  + toString(): String
+  + client(Client): ClientDeviceBuilder
+}
+class ClientDeviceBuilder {
+  ~ ClientDeviceBuilder(): 
+  + deviceHash(String): ClientDeviceBuilder
+  + client(Client): ClientDeviceBuilder
+  + build(): ClientDevice
+  + toString(): String
+  + Id(Long): ClientDeviceBuilder
+}
+entity ClientDeviceDTO << record >> {
+  + ClientDeviceDTO(String, Client): 
+  + deviceHash(): String
+  + client(): Client
+}
+interface ClientDeviceRepository << interface >> {
+  + getClientDeviceById(Long): ClientDevice
+}
+class ClientDeviceService {
+  + ClientDeviceService(ClientDeviceBuilder): 
+}
+interface ClientRepository << interface >> {
+  + getClientById(Long): Client
+}
+class ClientService {
+  + ClientService(ClientRepository): 
+  + getClientById(Long): Client
+   allClients: List<Client>
+}
+class ClientToken {
+  + ClientToken(Long, String, Client): 
+  + ClientToken(): 
+  - id: Long
+  - client: Client
+  - token: String
+  + builder(): ClientTokenBuilder
+   id: Long
+   token: String
+   client: Client
+}
+class ClientToken {
+  + ClientToken(Long, String, Client): 
+  + ClientToken(): 
+  - client: Client
+  - id: Long
+  - token: String
+  + builder(): ClientTokenBuilder
+   id: Long
+   token: String
+   client: Client
+}
+class ClientTokenBuilder {
+  + ClientTokenBuilder(TokenRepository): 
+  + tokenBuilder(ClientTokenDTO): ClientToken
+}
+class ClientTokenBuilder {
+  ~ ClientTokenBuilder(): 
+  + id(Long): ClientTokenBuilder
+  + toString(): String
+  + build(): ClientToken
+  + client(Client): ClientTokenBuilder
+  + token(String): ClientTokenBuilder
+}
+class ClientTokenBuilder {
+  ~ ClientTokenBuilder(): 
+  + build(): ClientToken
+  + id(Long): ClientTokenBuilder
+  + toString(): String
+  + token(String): ClientTokenBuilder
+  + client(Client): ClientTokenBuilder
+}
+entity ClientTokenDTO << record >> {
+  + ClientTokenDTO(String, Client): 
+  + client(): Client
+  + token(): String
+}
+class Config {
+  + Config(): 
+}
+class CoreController {
+  + CoreController(ClientService, BankCardService, TokenService, ClientDeviceService, ObjectMapper): 
+  + getClientById(Long): Client
+  + validatePayment(Long, Long, int): boolean
+  + getToken(String): boolean
+  + getClientBankCardById(Long): ClientBankCard
+   allClients: List<Client>
+}
+class CoreServiceApplication {
+  + CoreServiceApplication(): 
+  + main(String[]): void
+}
+class CoreServiceApplicationTests {
+  + CoreServiceApplicationTests(): 
+  ~ contextLoads(): void
+}
+class CoreServiceExceptionHandler {
+  + CoreServiceExceptionHandler(): 
+  + handleInsufficientFundException(InsufficientFundException): ResponseEntity<Object>
+  + handleBankCardIsNotClientsException(BankCardIsNotClientsException): ResponseEntity<Object>
+  + handleTokenMissingException(TokenMissingException): ResponseEntity<Object>
+}
+class DiscoveryServerApplication {
+  + DiscoveryServerApplication(): 
+  + main(String[]): void
+}
+class Event {
+  + Event(): 
+  + Event(Long, String, String, LocalDateTime, LocalDateTime, List<Seat>): 
+  - location: String
+  - seats: List<Seat>
+  - eventId: Long
+  - startTimeStamp: LocalDateTime
+  - title: String
+  - endTimeStamp: LocalDateTime
+  + builder(): EventBuilder
+   eventId: Long
+   startTimeStamp: LocalDateTime
+   location: String
+   title: String
+   endTimeStamp: LocalDateTime
+   seats: List<Seat>
+}
+class Event {
+  + Event(): 
+  + Event(Long, String, String, LocalDateTime, LocalDateTime, List<Seat>): 
+  - endTimeStamp: LocalDateTime
+  - eventId: Long
+  - startTimeStamp: LocalDateTime
+  - location: String
+  - title: String
+  - seats: List<Seat>
+  + isItExpired(LocalDateTime): boolean
+  + builder(): EventBuilder
+   eventId: Long
+   startTimeStamp: LocalDateTime
+   location: String
+   title: String
+   endTimeStamp: LocalDateTime
+   seats: List<Seat>
+}
+class EventBuilder {
+  + EventBuilder(EventRepository): 
+  + eventBuilder(NewEventDTO, List<Seat>): Event
+}
+class EventBuilder {
+  ~ EventBuilder(): 
+  + title(String): EventBuilder
+  + location(String): EventBuilder
+  + endTimeStamp(LocalDateTime): EventBuilder
+  + startTimeStamp(LocalDateTime): EventBuilder
+  + seats(List<Seat>): EventBuilder
+  + eventId(Long): EventBuilder
+  + build(): Event
+  + toString(): String
+}
+class EventBuilder {
+  ~ EventBuilder(): 
+  + seats(List<Seat>): EventBuilder
+  + endTimeStamp(LocalDateTime): EventBuilder
+  + location(String): EventBuilder
+  + eventId(Long): EventBuilder
+  + build(): Event
+  + startTimeStamp(LocalDateTime): EventBuilder
+  + title(String): EventBuilder
+  + toString(): String
+}
+class EventController {
+  + EventController(EventService, SeatRepository, ReservationService, ObjectMapper): 
+  + addEventFromJson(): List<Event>
+  + getEventById(Long): ResponseEntity<Event>
+  + reserveSeat(Long, Long): ResponseEntity<Object>
+   events: List<Event>
+}
+entity EventException << record >> {
+  + EventException(String, String, String, HttpStatus): 
+  + errorCode(): String
+  + httpStatus(): HttpStatus
+  + incident(): String
+  + message(): String
+}
+entity EventException << record >> {
+  + EventException(String, String, HttpStatus): 
+  + httpStatus(): HttpStatus
+  + errorCode(): String
+  + message(): String
+}
+class EventIsExpiredException {
+  + EventIsExpiredException(String): 
+}
+class EventNotFoundException {
+  + EventNotFoundException(String): 
+}
+class EventNotFoundException {
+  + EventNotFoundException(String): 
+}
+interface EventRepository << interface >> {
+  + findEventByEventId(Long): Event
+}
+class EventService {
+  + EventService(EventRepository, EventBuilder, SeatRepository, SeatBuilder): 
+  + addEvents(List<NewEventDTO>): List<Event>
+  - getSeats(NewEventDTO): List<Seat>
+  + getEventById(Long): Event
+  + addEvent(NewEventDTO): Event
+   allEvents: List<Event>
+}
+class EventServiceTest {
+  ~ EventServiceTest(): 
+  ~ getEventById(): void
+}
+class InsufficientFundException {
+  + InsufficientFundException(String): 
+}
+entity NewEventDTO << record >> {
+  + NewEventDTO(String, String, LocalDateTime, LocalDateTime, List<NewSeatDTO>): 
+  + startTimeStamp(): LocalDateTime
+  + location(): String
+  + endTimeStamp(): LocalDateTime
+  + title(): String
+  + seats(): List<NewSeatDTO>
+}
+entity NewEventDTO << record >> {
+  + NewEventDTO(String, String, LocalDateTime, LocalDateTime, List<NewSeatDTO>): 
+  + startTimeStamp(): LocalDateTime
+  + endTimeStamp(): LocalDateTime
+  + seats(): List<NewSeatDTO>
+  + title(): String
+  + location(): String
+}
+entity NewSeatDTO << record >> {
+  + NewSeatDTO(int, String, boolean): 
+  + currency(): String
+  + reserved(): boolean
+  + price(): int
+}
+entity NewSeatDTO << record >> {
+  + NewSeatDTO(int, String, boolean): 
+  + currency(): String
+  + reserved(): boolean
+  + price(): int
+}
+class PartnerServiceApplication {
+  + PartnerServiceApplication(): 
+  + main(String[]): void
+}
+class PartnerServiceApplicationTests {
+  ~ PartnerServiceApplicationTests(): 
+  ~ contextLoads(): void
+}
+class PartnerServiceExceptionHandler {
+  + PartnerServiceExceptionHandler(): 
+  + handleEventNotFoundException(EventNotFoundException): ResponseEntity<Object>
+  + handleSeatIsTakenException(SeatIsTakenException): ResponseEntity<Object>
+  + handleSeatNotFoundException(SeatNotFoundException): ResponseEntity<Object>
+}
+class Reservation {
+  + Reservation(): 
+  + Reservation(Long, boolean): 
+  - reservationId: Long
+  - success: boolean
+  + builder(): ReservationBuilder
+   reservationId: Long
+   success: boolean
+}
+class ReservationBuilder {
+  + ReservationBuilder(ReservationRepository): 
+  + reservationBuilder(ReservationDTO): Reservation
+}
+class ReservationBuilder {
+  ~ ReservationBuilder(): 
+  + build(): Reservation
+  + success(boolean): ReservationBuilder
+  + toString(): String
+  + reservationId(Long): ReservationBuilder
+}
+entity ReservationDTO << record >> {
+  + ReservationDTO(Long, boolean): 
+  + success(): boolean
+  + reservationId(): Long
+}
+entity ReservationDTO << record >> {
+  + ReservationDTO(Long, boolean): 
+  + success(): boolean
+  + reservationId(): Long
+}
+interface ReservationRepository << interface >>
+class ReservationService {
+  + ReservationService(ReservationBuilder, ReservationRepository): 
+  + addReservation(ReservationDTO): Reservation
+}
+class RouteValidator {
+  + RouteValidator(): 
+}
+class Seat {
+  + Seat(Long, int, String, boolean, List<Event>): 
+  + Seat(): 
+  - price: int
+  - reserved: boolean
+  - seatId: Long
+  - currency: String
+  - event: List<Event>
+  + builder(): SeatBuilder
+  + toString(): String
+   event: List<Event>
+   seatId: Long
+   currency: String
+   reserved: boolean
+   price: int
+}
+class Seat {
+  + Seat(Long, int, String, boolean, List<Event>): 
+  + Seat(): 
+  - seatId: Long
+  - price: int
+  - reserved: boolean
+  - event: List<Event>
+  - currency: String
+  + builder(): SeatBuilder
+  + toString(): String
+   event: List<Event>
+   seatId: Long
+   currency: String
+   reserved: boolean
+   price: int
+}
+class SeatBuilder {
+  + SeatBuilder(SeatRepository): 
+  + seatBuilder(NewSeatDTO): Seat
+}
+class SeatBuilder {
+  ~ SeatBuilder(): 
+  + currency(String): SeatBuilder
+  + build(): Seat
+  + toString(): String
+  + price(int): SeatBuilder
+  + reserved(boolean): SeatBuilder
+  + event(List<Event>): SeatBuilder
+  + seatId(Long): SeatBuilder
+}
+class SeatBuilder {
+  ~ SeatBuilder(): 
+  + seatId(Long): SeatBuilder
+  + price(int): SeatBuilder
+  + build(): Seat
+  + currency(String): SeatBuilder
+  + toString(): String
+  + reserved(boolean): SeatBuilder
+  + event(List<Event>): SeatBuilder
+}
+entity SeatException << record >> {
+  + SeatException(String, String, HttpStatus): 
+  + message(): String
+  + errorCode(): String
+  + httpStatus(): HttpStatus
+}
+entity SeatException << record >> {
+  + SeatException(String, String, String, HttpStatus): 
+  + errorCode(): String
+  + incident(): String
+  + httpStatus(): HttpStatus
+  + message(): String
+}
+class SeatIsTakenException {
+  + SeatIsTakenException(String): 
+}
+class SeatIsTakenException {
+  + SeatIsTakenException(String): 
+}
+class SeatNotFoundException {
+  + SeatNotFoundException(String): 
+}
+class SeatNotFoundException {
+  + SeatNotFoundException(String): 
+}
+interface SeatRepository << interface >>
+class TicketController {
+  + TicketController(TicketService): 
+  + getPartnerEventById(Long): Event
+  + bookYourTicket(Long, Long, Long, Long): ReservationDTO
+   partnerEvents: List<Event>
+}
+class TicketService {
+  + TicketService(Builder): 
+  + payForReservation(Long, Long, Long, Long): ReservationDTO
+  + validate(Long, Long, int): boolean
+  + getPartnerEventById(Long): Event
+   allPartnerEvents: List<Event>
+}
+class TicketServiceApplication {
+  + TicketServiceApplication(): 
+  + main(String[]): void
+}
+class TicketServiceApplicationTests {
+  + TicketServiceApplicationTests(): 
+  ~ contextLoads(): void
+}
+class TicketServiceExceptionHandler {
+  + TicketServiceExceptionHandler(): 
+  + handleSeatIsTakenException(SeatIsTakenException): ResponseEntity<Object>
+  + handleEventNotFoundException(EventNotFoundException): ResponseEntity<Object>
+  + handleSeatNotFoundException(SeatNotFoundException): ResponseEntity<Object>
+  + handleEventIsExpiredException(EventIsExpiredException): ResponseEntity<Object>
+}
+class TokenAuthenticationFilter {
+  + TokenAuthenticationFilter(ApiService, RouteValidator): 
+  + apply(Config): GatewayFilter
+}
+entity TokenException << record >> {
+  + TokenException(String, String, String, HttpStatus): 
+  + message(): String
+  + httpStatus(): HttpStatus
+  + incident(): String
+  + errorCode(): String
+}
+class TokenMissingException {
+  + TokenMissingException(String): 
+}
+interface TokenRepository << interface >> {
+  + getClientTokenByToken(String): ClientToken
+}
+class TokenService {
+  + TokenService(TokenRepository): 
+  + validateToken(String): boolean
+  + getTokenByToken(String): ClientToken
+}
+class WebClientConfig {
+  + WebClientConfig(): 
+  + webClientBuilder(): Builder
+}
+
+ClientBankCardBuilder           +-[#820000,plain]-  ClientBankCard                 
+ClientBankCardBuilder           +-[#820000,plain]-  ClientBankCard                 
+ClientBuilder                   +-[#820000,plain]-  Client                         
+ClientBuilder                   +-[#820000,plain]-  Client                         
+ClientDeviceBuilder             +-[#820000,plain]-  ClientDevice                   
+ClientDeviceBuilder             +-[#820000,plain]-  ClientDevice                   
+ClientTokenBuilder              +-[#820000,plain]-  ClientToken                    
+ClientTokenBuilder              +-[#820000,plain]-  ClientToken                    
+Config                          +-[#820000,plain]-  TokenAuthenticationFilter      
+EventBuilder                    +-[#820000,plain]-  Event                          
+EventBuilder                    +-[#820000,plain]-  Event                          
+ReservationBuilder              +-[#820000,plain]-  Reservation                    
+SeatBuilder                     +-[#820000,plain]-  Seat                           
+SeatBuilder                     +-[#820000,plain]-  Seat                           
+@enduml
