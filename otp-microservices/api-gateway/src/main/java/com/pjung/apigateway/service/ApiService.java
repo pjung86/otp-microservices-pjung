@@ -7,15 +7,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class ApiService {
 
-    private final WebClient webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    public ApiService(WebClient webClientBuilder) {
+    public ApiService(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
     }
 
     public boolean validateToken(String token) {
-        boolean result = webClientBuilder.get()
+        boolean result = webClientBuilder.build().get()
                 .uri("http://core-service/core/getToken/{token}", token)
                 .retrieve()
                 .bodyToMono(Boolean.class)
