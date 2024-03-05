@@ -18,12 +18,9 @@ public class TokenService {
 
     private final TokenRepository tokenRepository;
 
-    private final ClientTokenBuilder clientTokenBuilder;
-
     @Autowired
-    public TokenService(TokenRepository tokenRepository, ClientTokenBuilder clientTokenBuilder) {
+    public TokenService(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
-        this.clientTokenBuilder = clientTokenBuilder;
     }
 
     public ClientToken getTokenByToken(String token) {
@@ -38,18 +35,5 @@ public class TokenService {
         ClientToken currentToken = getTokenByToken(token);
         System.out.println("This is token from DB: " + currentToken);
         return currentToken.getToken().equals(token);
-    }
-
-    public List<ClientToken> addTokens(List<ClientTokenDTO> clientTokenDTOS) {
-        List<ClientToken> clientTokenList = new ArrayList<>();
-        for (ClientTokenDTO clientTokenDTO : clientTokenDTOS) {
-            ClientToken addedClientToken = addToken(clientTokenDTO);
-            clientTokenList.add(addedClientToken);
-        }
-        return clientTokenList;
-    }
-
-    public ClientToken addToken(ClientTokenDTO clientTokenDTO) {
-        return clientTokenBuilder.tokenBuilder(clientTokenDTO);
     }
 }

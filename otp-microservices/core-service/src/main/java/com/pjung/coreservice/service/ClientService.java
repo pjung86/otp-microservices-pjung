@@ -15,12 +15,10 @@ import java.util.UUID;
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    private  final ClientBuilder clientBuilder;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ClientBuilder clientBuilder) {
+    public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.clientBuilder = clientBuilder;
     }
 
     public List<Client> getAllClients() {
@@ -32,17 +30,4 @@ public class ClientService {
         return clientRepository.getClientById(id);
     }
 
-    public List<Client> addClients(List<ClientDTO> clients) {
-        List<Client> clientList = new ArrayList<>();
-        for (ClientDTO client : clients) {
-            Client addedEvent = addClient(client);
-            clientList.add(addedEvent);
-        }
-        return clientList;
-    }
-
-    public Client addClient(ClientDTO client) {
-
-        return clientBuilder.clientBuilder(client);
-    }
 }

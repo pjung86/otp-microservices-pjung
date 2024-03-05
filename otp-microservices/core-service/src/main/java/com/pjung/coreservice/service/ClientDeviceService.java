@@ -22,16 +22,4 @@ public class ClientDeviceService {
         this.clientDeviceBuilder = clientDeviceBuilder;
     }
 
-    public List<ClientDevice> addClientDevices(List<ClientDeviceDTO> clientDeviceDTOS) {
-        List<ClientDevice> clientDeviceList = new ArrayList<>();
-        for (ClientDeviceDTO clientDevice : clientDeviceDTOS) {
-            ClientDevice addedClientDevice = addDevice(clientDevice);
-            clientDeviceList.add(addedClientDevice);
-        }
-        return clientDeviceList;
-    }
-
-    public ClientDevice addDevice(ClientDeviceDTO clientDeviceDTO) {
-        return clientDeviceBuilder.clientDeviceBuilder(clientDeviceDTO);
-    }
 }
