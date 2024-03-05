@@ -22,7 +22,7 @@ public class ClientBankCard {
     private String name;
     private int amount;
     private String currency;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JsonBackReference
     private Client client;
 

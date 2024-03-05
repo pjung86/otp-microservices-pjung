@@ -19,7 +19,6 @@ public class ClientDevice {
     private Long Id;
     private String deviceHash;
     @ManyToOne
-    @Cascade(CascadeType.PERSIST)
     @JsonBackReference
     private Client client;
 }

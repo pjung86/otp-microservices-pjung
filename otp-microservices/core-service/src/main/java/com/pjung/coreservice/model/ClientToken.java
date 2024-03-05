@@ -1,5 +1,6 @@
 package com.pjung.coreservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.*;
@@ -19,6 +20,6 @@ public class ClientToken {
     private Long id;
     private String token;
     @ManyToOne
-    @Cascade(CascadeType.PERSIST)
+    @JsonBackReference
     private Client client;
 }
