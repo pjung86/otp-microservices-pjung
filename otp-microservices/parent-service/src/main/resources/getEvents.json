@@ -3,8 +3,8 @@
             "eventId": 1,
             "title": "Szilveszteri zártkörű rendezvény",
             "location": "Greenwich",
-            "startTimeStamp": "1577836800",
-            "endTimeStamp": "1577844000",
+            "startTimeStamp": "2023-12-25T10:00:00",
+            "endTimeStamp": "2023-12-27T15:30:00",
             "seats": [
                 {
                     "id": "S1",
@@ -72,8 +72,8 @@
             "eventId": 2,
             "title": "Májusi mulatság",
             "location": "Budapest",
-            "startTimeStamp": "1588334400",
-            "endTimeStamp": "1588348800",
+            "startTimeStamp": " 2024-02-14T12:15:00",
+            "endTimeStamp": "2024-02-16T15:30:00",
             "seats": [
                 {
                     "id": "S1",
@@ -141,8 +141,8 @@
             "eventId": 3,
             "title": "Necc party",
             "location": "Debrecen",
-            "startTimeStamp": "1607731200",
-            "endTimeStamp": "1607817599",
+            "startTimeStamp": "2024-07-04T15:30:00",
+            "endTimeStamp": "2024-07-05T15:30:00",
             "seats": [
                 {
                     "id": "S1",
