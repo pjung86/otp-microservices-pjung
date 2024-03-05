@@ -7,6 +7,7 @@ import com.pjung.partnerservice.dto.ReservationDTO;
 import com.pjung.partnerservice.exceptions.SeatIsTakenException;
 import com.pjung.partnerservice.exceptions.SeatNotFoundException;
 import com.pjung.partnerservice.model.Event;
+import com.pjung.partnerservice.model.Reservation;
 import com.pjung.partnerservice.model.Seat;
 import com.pjung.partnerservice.repository.ReservationRepository;
 import com.pjung.partnerservice.repository.SeatRepository;
@@ -55,7 +56,7 @@ public class EventController {
 
     @Transactional
     @PostMapping(value = "reserve")
-    public ResponseEntity<Object> reserveSeat(@RequestParam Long eventId, @RequestParam Long seatId, @RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<Object> reserveSeat(@RequestParam Long eventId, @RequestParam Long seatId) {
         Event event = eventService.getEventById(eventId);
 
         Seat seat = event.getSeats().stream().filter(seat1 -> seat1.getSeatId().equals(seatId)).findFirst().orElseThrow(() -> new SeatNotFoundException("Nem létezik ilyen szék!"));
@@ -63,9 +64,9 @@ public class EventController {
         if (seat.isReserved()) {
             throw new SeatIsTakenException("Már lefoglalt székre nem lehet jegyet eladni!");
         }
-
+         ReservationDTO reservation = new ReservationDTO(event.getEventId() + seat.getSeatId(), true );
         // Return the success response
-        return ResponseEntity.ok(reservationService.addReservation(reservationDTO));
+        return ResponseEntity.ok(reservationService.addReservation(reservation));
     }
 
 

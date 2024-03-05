@@ -28,7 +28,6 @@ public class Event {
     @JoinTable(name = "Event_Seat",
             joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "eventId"),
             inverseJoinColumns = @JoinColumn(name = "seat_id", referencedColumnName = "seatId"))
-    @JsonManagedReference
     private List<Seat> seats;
 
     public boolean isItExpired (LocalDateTime timeStamp) {
