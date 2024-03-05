@@ -66,6 +66,7 @@
 ## About The Project
 
 This backend project is about booking a ticket for a certain event. You can check what are the ongoing events and if there is a free seat you can reserve and pay for your ticket.
+I followed the microservice design pattern. I also used Eureka discovery server and Spring Coud Gateway.
 
 <p align="right">(<a href="#readme-top">:top:</a>)</p>
 
@@ -171,7 +172,7 @@ services at once.
   In the next sprint the following should be impletmented:
   - debug GatewayFilter that has been implemented:
     right now the filters are implemented, but not working thus commented out in the api gateways application.properties file
-  - creating UML diagrams of use-case, activity and sequence
+  - creating UML diagrams of use-case, activity and sequence with Plantuml
   - by writing unit test with Junit reach the test coverage at least to 80% in order to produce a stable build
   - writing integrastion test to avoid regression (testcontainers)
   - setting up the logging mechanism with logger or log4j (both console and log file)
