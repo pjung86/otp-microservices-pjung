@@ -96,7 +96,7 @@ Please see the core dependencies and installation steps below:
 ### Installation
 1. Clone the repo
    ```sh
-   git clone git@github.com:https://github.com/pjung86/otp-microservices-pjung
+   git clone git@github.com:pjung86/otp-microservices-pjung.git
    ```
 #### In PostgreSQL
 2. Create a database in PostgreSQL for every service named :
