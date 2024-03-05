@@ -138,9 +138,12 @@ services at once.
 ## Usage
 ### Patner-service
   In this service you have 3 end points. Two GET and one Post endpoints.
-  With the getEvents/ end point you can ask for all the events in the DB
-  With the getEvent/{id} end point you can ask for one event with a specific id
-  With the /reserve end point you can place a reservation
+  With the getEvents/ end point you can ask for all the events in the DB.
+  With the getEvent/{id} end point you can ask for one event with a specific id.
+  With the /reserve end point you can place a reservation.
+
+### Ticket-service
+  This service is responsible
 
 <p align="right">(<a href="#readme-top">:top:</a>)</p>
 
