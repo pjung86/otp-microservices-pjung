@@ -41,10 +41,6 @@ public class CoreController {
         this.tokenService = tokenService;
         this.clientDeviceService = clientDeviceService;
         this.objectMapper = objectMapper;
-        addClientsFromJson();
-        addDevicesFromJson();
-        addTokensFromJson();
-        addBankCardsFromJson();
     }
 
     @GetMapping(value = "clients")
@@ -62,61 +58,14 @@ public class CoreController {
         return bankCardService.getClientBankCardById(id);
     }
 
-    @GetMapping(value = "validatePayment")
-    public boolean validatePayment(@RequestParam Long cardId, @RequestParam Long clientId, @RequestParam int price) {
+    @GetMapping(value = "validatePayment/{cardId}/{clientId}/{price}")
+    public boolean validatePayment(@PathVariable("cardId") Long cardId, @PathVariable("clientId") Long clientId, @PathVariable("price") int price) {
         return bankCardService.isItMyCard(cardId, clientId) && bankCardService.isCardBalanceEnough(cardId, price);
     }
 
-    @GetMapping(value = "validateToken")
-    public boolean getToken(@RequestParam("token") String token) {
+    @GetMapping(value = "validateToken/{token}")
+    public boolean getToken(@PathVariable("token") String token) {
         return tokenService.validateToken(token);
     }
 
-    public List<Client> addClientsFromJson() {
-        try {
-            InputStream inputStream = new ClassPathResource("getClients.json").getInputStream();
-            List<ClientDTO> clients = objectMapper.readValue(inputStream, new TypeReference<List<ClientDTO>>() {
-            });
-            List<Client> addedClients = clientService.addClients(clients);
-            return ResponseEntity.ok(addedClients).getBody();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<ClientDevice> addDevicesFromJson() {
-        try {
-            InputStream inputStream = new ClassPathResource("getDevices.json").getInputStream();
-            List<ClientDeviceDTO> devices = objectMapper.readValue(inputStream, new TypeReference<List<ClientDeviceDTO>>() {
-            });
-            List<ClientDevice> addedDevices = clientDeviceService.addClientDevices(devices);
-            return ResponseEntity.ok(addedDevices).getBody();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<ClientToken> addTokensFromJson() {
-        try {
-            InputStream inputStream = new ClassPathResource("getTokens.json").getInputStream();
-            List<ClientTokenDTO> tokens = objectMapper.readValue(inputStream, new TypeReference<List<ClientTokenDTO>>() {
-            });
-            List<ClientToken> addedTokens = tokenService.addTokens(tokens);
-            return ResponseEntity.ok(addedTokens).getBody();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<ClientBankCard> addBankCardsFromJson() {
-        try {
-            InputStream inputStream = new ClassPathResource("getClientBankCards.json").getInputStream();
-            List<ClientBankCardDTO> bankCards = objectMapper.readValue(inputStream, new TypeReference<List<ClientBankCardDTO>>() {
-            });
-            List<ClientBankCard> addedBankCards = bankCardService.addBankCards(bankCards);
-            return ResponseEntity.ok(addedBankCards).getBody();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
