@@ -46,16 +46,16 @@ public class TicketService {
         return partnerEvent;
     }
 
-    public ClientBankCard getClientBankCardById (Long id) {
-        ClientBankCard clientCard = webClientBuilder.build().get()
-                .uri("http://core-service/core/bankcard/{id}", id)
+    public boolean validate (Long cardId, Long clientId, int amount) {
+        Boolean result = webClientBuilder.build().get()
+                .uri("http://core-service/core/validatePayment", cardId, clientId, amount)
                 .retrieve()
-                .bodyToMono(ClientBankCard.class)
+                .bodyToMono(Boolean.class)
                 .block();
-        return clientCard;
+        return result;
     }
 
-    public ReservationDTO payForReservation (Long eventId, Long seatId) {
+    public ReservationDTO payForReservation (Long eventId, Long seatId, Long cardId, Long clientId) {
         Event currentEvent = getPartnerEventById(eventId);
         LocalDateTime currentTime = LocalDateTime.now();
         if(currentEvent == null) {
@@ -72,6 +72,8 @@ public class TicketService {
         if(seat.isReserved()) {
             throw new SeatIsTakenException("Már lefoglalt székre nem lehet jegyet eladni!");
         }
-        return null;
+        validate(cardId, clientId, seat.getPrice());
+
+        return new ReservationDTO(currentEvent.getEventId() + clientId, true);
     }
 }
