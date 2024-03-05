@@ -66,7 +66,7 @@
 ## About The Project
 
 This backend project is about booking a ticket for a certain event. You can check what are the ongoing events and if there is a free seat you can reserve and pay for your ticket.
-I followed the microservice design pattern. I also used Eureka discovery server and Spring Coud Gateway.
+The microservice design pattern is followed. To comply with microservices architectire Eureka discovery server and Spring Coud Gateway were also implemented.
 
 <p align="right">(<a href="#readme-top">:top:</a>)</p>
 
