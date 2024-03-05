@@ -181,7 +181,7 @@ services at once.
 
 <!-- CONTRIBUTING -->
 ## Contributing
-This project was made by four Codecool student: Péter Jung
+This project was made by Codecool student: Péter Jung
 
 <!-- CONTACT -->
 ## Contact
