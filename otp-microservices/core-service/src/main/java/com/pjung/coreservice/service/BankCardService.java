@@ -19,12 +19,10 @@ import java.util.List;
 public class BankCardService {
 
     private final BankCardRepository bankCardRepository;
-    private final ClientBankCardBuilder clientBankCardBuilder;
 
     @Autowired
-    public BankCardService(BankCardRepository bankCardRepository, ClientBankCardBuilder clientBankCardBuilder) {
+    public BankCardService(BankCardRepository bankCardRepository) {
         this.bankCardRepository = bankCardRepository;
-        this.clientBankCardBuilder = clientBankCardBuilder;
     }
 
     public ClientBankCard getClientBankCardById (Long id) {
@@ -47,16 +45,4 @@ public class BankCardService {
         return currentCard.checkFunds(amount);
     }
 
-    public List<ClientBankCard> addBankCards(List<ClientBankCardDTO> clientBankCardDTOS) {
-        List<ClientBankCard> clientBankCardList = new ArrayList<>();
-        for (ClientBankCardDTO clientBankCardDTO : clientBankCardDTOS) {
-            ClientBankCard addedClientBankCard = addCard(clientBankCardDTO);
-            clientBankCardList.add(addedClientBankCard);
-        }
-        return clientBankCardList;
-    }
-
-    public ClientBankCard addCard(ClientBankCardDTO clientBankCardDTO) {
-        return clientBankCardBuilder.bankCardBuilder(clientBankCardDTO);
-    }
 }
