@@ -20,13 +20,14 @@ public class Client {
     private Long Id;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client")
     @JsonManagedReference
     private List<ClientDevice> clientDevices;
     @OneToOne(mappedBy = "client")
     @JsonManagedReference
     private ClientBankCard clientBankCard;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client")
+    @JsonManagedReference
     private List<ClientToken> clientTokens;
 
 }
