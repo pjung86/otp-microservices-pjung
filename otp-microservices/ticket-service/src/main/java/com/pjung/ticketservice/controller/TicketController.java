@@ -29,8 +29,8 @@ public class TicketController {
         return ticketService.getPartnerEventById(id);
     }
 
-    @PostMapping(value = "pay")
-    public ReservationDTO bookYourTicket (@RequestParam() Long eventId, @RequestParam() Long seatId, @RequestParam() Long cardID, @RequestParam() Long clientId) {
+    @PostMapping(value = "pay/{eventId}/{seatId}/{cardId}/{clientId}")
+    public ReservationDTO bookYourTicket (@PathVariable("eventId") Long eventId, @PathVariable("seatId") Long seatId, @PathVariable("cardId") Long cardID, @PathVariable("clientId") Long clientId) {
         return ticketService.payForReservation(eventId, seatId, cardID, clientId);
     }
 }
