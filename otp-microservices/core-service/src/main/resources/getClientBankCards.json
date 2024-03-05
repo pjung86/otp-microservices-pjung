@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "cardNumber": "5299706965433676",
+    "cvcCode": 123,
+    "name": "Teszt Aladár",
+    "amount": 1000,
+    "currency": "HUF",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 2,
+    "cardNumber": "5390508354245119",
+    "cvcCode": 456,
+    "name": "Teszt Benedek",
+    "amount": 2000,
+    "currency": "HUF",
+    "client": {
+      "clientId": 2,
+      "name": "Teszt Benedek",
+      "email": "teszt.benedek@optmobil.com"
+    }
+  },
+  {
+    "id": 3,
+    "cardNumber": "4929088924014470",
+    "cvcCode": 123,
+    "name": "Teszt Cecília",
+    "amount": 3000,
+    "currency": "HUF",
+    "client": {
+      "clientId": 3,
+      "name": "Teszt Cecília",
+      "email": "teszt.cecilia@optmobil.com"
+    }
+  }
+]

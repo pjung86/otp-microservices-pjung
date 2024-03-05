@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "token": "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJkY2N0MyQkNCRkNGQTMwRkNDQjM2RjcyRENBMjJBODE3",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 2,
+    "token": "dGVzenQuYmVuZWRla0BvdHBtb2JpbC5jb20mMjAwMCZGQURERkVBNTYyRjNDOTE0RENDODE5NTY2ODJEQjBGQw==",
+    "client": {
+      "clientId": 2,
+      "name": "Teszt Benedek",
+      "email": "teszt.benedek@optmobil.com"
+    }
+  },
+  {
+    "id": 3,
+    "token": "dGVzenQuY2VjaWxpYUBvdHBtb2JpbC5jb20mMzAwMCZFNjg1NjA4NzJCREIyREYyRkZFN0FEQzA5MTc1NTM3OA==",
+    "client": {
+      "clientId": 3,
+      "name": "Teszt Cecília",
+      "email": "teszt.cecilia@optmobil.com"
+    }
+  },
+  {
+    "id": 4,
+    "token": "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjBGMTY3NEJEMTlEM0JCREQ0QzM5RTE0NzM0RkZCODc2",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 5,
+    "token": "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  }
+]

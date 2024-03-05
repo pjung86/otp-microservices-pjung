@@ -1,0 +1,17 @@
+[
+  {
+    "clientId": 1,
+    "name": "Teszt Aladár",
+    "email": "teszt.aladar@optmobil.com"
+  },
+  {
+    "clientId": 2,
+    "name": "Teszt Benedek",
+    "email": "teszt.benedek@optmobil.com"
+  },
+  {
+    "clientId": 3,
+    "name": "Teszt Cecília",
+    "email": "teszt.cecilia@optmobil.com"
+  }
+]

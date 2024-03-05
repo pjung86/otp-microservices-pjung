@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "deviceHash": "F67C2BCBFCFA30FCCB36F72DCA22A817",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 2,
+    "deviceHash": "0F1674BD19D3BBDD4C39E14734FFB876",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 3,
+    "deviceHash": "3AE5E9658FBD7D4048BD40820B7D227D",
+    "client": {
+      "clientId": 1,
+      "name": "Teszt Aladár",
+      "email": "teszt.aladar@optmobil.com"
+    }
+  },
+  {
+    "id": 4,
+    "deviceHash": "FADDFEA562F3C914DCC81956682DB0FC",
+    "client": {
+      "clientId": 2,
+      "name": "Teszt Benedek",
+      "email": "teszt.benedek@optmobil.com"
+    }
+  },
+  {
+    "id": 5,
+    "deviceHash": "E68560872BDB2DF2FFE7ADC091755378",
+    "client": {
+      "clientId": 3,
+      "name": "Teszt Cecília",
+      "email": "teszt.cecília@optmobil.com"
+    }
+  }
+]
