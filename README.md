@@ -143,10 +143,40 @@ services at once.
   With the /reserve end point you can place a reservation.
 
 ### Ticket-service
-  This service is responsible
+  This service is responsible for communicationg with the Partner-service. They communicate with http rest calls.
+  Ticket service ask for all the events or only one event by id.
+  Ticket service also communicates with the Core-service. It can request for user data and bank card data.
+  After that it validates all the incoming information and you can initiate a payment call through a POST method.
+  IF everything successful ticket reservation and payment is fullfilled.
+
+### Core-service
+  Core-service manages user details and user bank card details. It can validated if the owner of the card is the specific user by id.
+  It also validates the credit of the card.
+  It sends the necessary information to the ticket-service
+
+### Discovery server
+  This service is responsible of registering the instances of the other services.
+
+### Api gateway
+  The gateway is responsible for managing incoming client requests and forwards it to the respective service.
+  Gateway filter is used for authenticating requests by checking the User-Token in the header.
+
+
 
 <p align="right">(<a href="#readme-top">:top:</a>)</p>
 
+## Future Plans
+
+  Unfortunately do to the tight sprint not all the requirements were fullfilled.
+  In the next sprint the following should be impletmented:
+  - debug GatewayFilter that has been implemented:
+    right now the filters are implemented, but not working thus commented out in the api gateways application.properties file
+  - creating UML diagrams of use-case, activity and sequence
+  - by writing unit test with Junit reach the test coverage at least to 80% in order to produce a stable build
+  - writing integrastion test to avoid regression (testcontainers)
+  - setting up the logging mechanism with logger or log4j (both console and log file)
+
+<p align="right">(<a href="#readme-top">:top:</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
