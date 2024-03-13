@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TicketService {
@@ -40,6 +41,7 @@ public class TicketService {
                 .retrieve()
                 .bodyToMono(Event.class)
                 .block();
+
         if(partnerEvent == null) {
             throw new EventNotFoundException("Nem létezik ilyen esemény!");
         }
@@ -48,7 +50,7 @@ public class TicketService {
 
     public boolean validate (Long cardId, Long clientId, int amount) {
         Boolean result = webClientBuilder.build().get()
-                .uri("http://core-service/core/validatePayment", cardId, clientId, amount)
+                .uri("http://core-service/core/validatePayment/{cardId}/{clientId}/{price}", cardId, clientId, amount)
                 .retrieve()
                 .bodyToMono(Boolean.class)
                 .block();
@@ -74,6 +76,6 @@ public class TicketService {
         }
         validate(cardId, clientId, seat.getPrice());
 
-        return new ReservationDTO(currentEvent.getEventId() + clientId, true);
+        return new ReservationDTO(UUID.randomUUID(), true);
     }
 }
