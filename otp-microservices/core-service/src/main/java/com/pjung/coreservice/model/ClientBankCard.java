@@ -27,7 +27,7 @@ public class ClientBankCard {
     private Client client;
 
     public boolean checkFunds(int amount) {
-        return this.amount > amount;
+        return this.amount >= amount;
     }
 
     public boolean isItMine (Long id) {
