@@ -1,5 +1,7 @@
 package com.pjung.partnerservice.dto;
 
-public record ReservationDTO (Long reservationId, boolean success) {
+import java.util.UUID;
+
+public record ReservationDTO (UUID reservationId, boolean success) {
 
 }

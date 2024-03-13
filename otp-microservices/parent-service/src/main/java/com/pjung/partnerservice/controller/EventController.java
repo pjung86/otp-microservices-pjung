@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/events")
@@ -64,7 +65,7 @@ public class EventController {
         if (seat.isReserved()) {
             throw new SeatIsTakenException("Már lefoglalt székre nem lehet jegyet eladni!");
         }
-         ReservationDTO reservation = new ReservationDTO(event.getEventId() + seat.getSeatId(), true );
+         ReservationDTO reservation = new ReservationDTO(UUID.randomUUID(), true );
         // Return the success response
         return ResponseEntity.ok(reservationService.addReservation(reservation));
     }
