@@ -11,6 +11,7 @@ import com.pjung.ticketservice.model.Event;
 import com.pjung.ticketservice.model.Seat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -36,19 +37,21 @@ public class TicketService {
     }
 
     public Event getPartnerEventById(Long id) {
-        Event partnerEvent = webClientBuilder.build().get()
-                .uri("http://partner-service/events/getEvent/{id}", id)
-                .retrieve()
-                .bodyToMono(Event.class)
-                .block();
-
-        if(partnerEvent == null) {
+        Event partnerEvent;
+        try {
+            partnerEvent = webClientBuilder.build().get()
+                    .uri("http://partner-service/events/getEvent/{id}", id)
+                    .retrieve()
+                    .bodyToMono(Event.class)
+                    .block();
+        } catch (WebClientException ex) {
+            System.out.println("Error fetching event: " + ex.getMessage());
             throw new EventNotFoundException("Nem létezik ilyen esemény!");
         }
         return partnerEvent;
     }
 
-    public boolean validate (Long cardId, Long clientId, int amount) {
+    public boolean validate(Long cardId, Long clientId, int amount) {
         Boolean result = webClientBuilder.build().get()
                 .uri("http://core-service/core/validatePayment/{cardId}/{clientId}/{price}", cardId, clientId, amount)
                 .retrieve()
@@ -57,10 +60,10 @@ public class TicketService {
         return result;
     }
 
-    public ReservationDTO payForReservation (Long eventId, Long seatId, Long cardId, Long clientId) {
+    public ReservationDTO payForReservation(Long eventId, Long seatId, Long cardId, Long clientId) {
         Event currentEvent = getPartnerEventById(eventId);
         LocalDateTime currentTime = LocalDateTime.now();
-        if(currentEvent == null) {
+        if (currentEvent == null) {
             throw new EventNotFoundException("Nem létezik ilyen esemény!");
         }
 
@@ -71,7 +74,7 @@ public class TicketService {
                 .filter(seat1 -> seat1.getSeatId().equals(seatId))
                 .findFirst()
                 .orElseThrow(() -> new SeatNotFoundException("Nem létezik ilyen szék!"));
-        if(seat.isReserved()) {
+        if (seat.isReserved()) {
             throw new SeatIsTakenException("Már lefoglalt székre nem lehet jegyet eladni!");
         }
         validate(cardId, clientId, seat.getPrice());
